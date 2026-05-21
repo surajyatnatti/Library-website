@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Search</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="box">
+        <h1>📚 Library Search</h1>
+
+        <input type="text" id="searchBox" placeholder="Enter book name">
+        <button onclick="searchBook()">Search</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const books = [
+            { name: "Harry Potter", author: "J.K. Rowling", location: "Shelf A1", pdf: "books/harry.pdf" },
+            { name: "Math Guide", author: "R.D. Sharma", location: "Shelf C3", pdf: "books/math.pdf" },
+            { name: "Physics Basics", author: "John Smith", location: "Shelf B2", pdf: "books/physics.pdf" },
+            { name: "Introduction to Embedded system", author: "Shibu K V", location: "Shelf B3", pdf: "books/Introduction-to-embedded.pdf" }
+        ];
+
+        function searchBook() {
+            let input = document.getElementById("searchBox").value.toLowerCase();
+
+            let results = books.filter(book =>
+                book.name.toLowerCase().includes(input)
+            );
+
+            if (results.length > 0) {
+                let output = "✅ Results:<br><br>";
+
+                results.forEach(book => {
+                    output += `
+                        Name: ${book.name} <br>
+                        Author: ${book.author} <br>
+                        Location: ${book.location} <br>
+
+                        <a href="${book.pdf}" target="_blank">
+                            📖 View / Download PDF
+                        </a>
+
+                        <br><br>
+                    `;
+                });
+
+                document.getElementById("result").innerHTML = output;
+            } else {
+                document.getElementById("result").innerHTML = "❌ No results found";
+            }
+        }
+    </script>
+
+</body>
+</html>
