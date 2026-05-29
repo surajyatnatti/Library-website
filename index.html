@@ -1,222 +1,193 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Smart Library</title>
+    <title>Smart Library</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-body {
-    color: white;
-    overflow-x: hidden;
-}
+        body {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+        }
 
-/* BACKGROUND SLIDER */
-.hero {
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    animation: slide 15s infinite;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+        /* HERO */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                        url("images/library4.jpg") center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-    background-image:
-        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
-        url("images/library1.jpg");
-}
+        .hero h1 {
+            font-size: 50px;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
 
-@keyframes slide {
-    0% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url("images/library1.jpg"); }
-    33% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url("images/library2.jpg"); }
-    66% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url("images/library3.jpg"); }
-    100% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url("images/library4.jpg"); }
-}
+        .hero p {
+            margin-top: 10px;
+            opacity: 0.8;
+        }
 
-/* TITLE */
-.hero h1 {
-    font-size: 60px;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
-    -webkit-background-clip: text;
-    color: transparent;
-}
+        /* SEARCH */
+        .search-box {
+            margin-top: 20px;
+        }
 
-/* TYPING TEXT */
-.typing {
-    margin-top: 10px;
-    font-size: 18px;
-    opacity: 0.8;
-}
+        input {
+            padding: 12px;
+            width: 260px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+        }
 
-/* SEARCH */
-.search-box {
-    margin-top: 25px;
-}
+        button {
+            padding: 12px 18px;
+            border-radius: 25px;
+            border: none;
+            background: #00c6ff;
+            color: white;
+            cursor: pointer;
+        }
 
-input {
-    padding: 15px;
-    width: 280px;
-    border-radius: 30px;
-    border: none;
-    outline: none;
-}
+        button:hover {
+            background: #0072ff;
+        }
 
-/* RESULTS */
-#result {
-    padding: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
+        /* RESULTS */
+        #result {
+            margin: 40px auto;
+            width: 90%;
+            max-width: 600px;
+        }
 
-.card {
-    width: 280px;
-    border-radius: 15px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 20px rgba(0,255,255,0.2);
-    transition: 0.3s;
-}
+        .card {
+            background: white;
+            color: black;
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
 
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0,255,255,0.6);
-}
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-.card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-}
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: blue;
+        }
 
-.card-content {
-    padding: 15px;
-}
+        footer {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.6;
+        }
 
-.card a {
-    display: inline-block;
-    margin-top: 10px;
-    color: #00e6ff;
-}
-
-/* GALLERY */
-.gallery {
-    padding: 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 15px;
-}
-
-.gallery img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 12px;
-    transition: 0.3s;
-}
-
-.gallery img:hover {
-    transform: scale(1.05);
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    opacity: 0.5;
-}
-</style>
+    </style>
 </head>
 
 <body>
 
 <div class="hero">
-    <h1>Smart Library</h1>
-    <div class="typing" id="typingText"></div>
+    <h1>📚 Smart Library</h1>
+    <p>Search books and access PDFs instantly</p>
 
     <div class="search-box">
-        <input type="text" id="searchBox" placeholder="Search books..." onkeyup="searchBook()">
+        <input type="text" id="searchBox" placeholder="Search books...">
+        <button onclick="searchBook()">Search</button>
     </div>
 </div>
 
 <div id="result"></div>
 
-<div class="gallery">
-    <img src="images/library1.jpg">
-    <img src="images/library2.jpg">
-    <img src="images/library3.jpg">
-    <img src="images/library4.jpg">
-</div>
-
-<footer>© 2026 Smart Library</footer>
+<footer>
+    © 2026 Smart Library
+</footer>
 
 <script>
-
-/* TYPING EFFECT */
-const text = "Search. Discover. Download.";
-let i = 0;
-
-function typeEffect() {
-    if (i < text.length) {
-        document.getElementById("typingText").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeEffect, 50);
-    }
-}
-typeEffect();
-
-/* BOOK DATA */
 const books = [
     {
         name: "Programming in ANSI C",
         author: "E. Balagurusamy",
         location: "Shelf F1",
-        pdf: "books/cprogramming.pdf",
-        img: "images/book1.jpg"
+        pdf: "https://drive.google.com/file/d/1ItUWXEmKABH2J2cq4XeOjBcnekuc9ns0/view?usp=drivesdk"
     },
     {
         name: "Artificial Intelligence",
         author: "Saroj Kaushik",
         location: "Shelf A1",
-        pdf: "books/ai.pdf",
-        img: "images/book2.jpg"
+        pdf: "https://drive.google.com/file/d/12QYVw8whi8WKpQny6-ChJZNJl03Wx0FZ/view?usp=drivesdk"
+    },
+    {
+        name: "Fundamentals of Database Systems",
+        author: "Ramez Elmasri & Shamkant Navathe",
+        location: "Shelf B2",
+        pdf: "https://drive.google.com/file/d/1Zvyz70v2Mhpimy60KiLYmyGRjk6b-SEl/view?usp=drivesdk"
+    },
+    {
+        name: "Concrete Technology",
+        author: "M L Gambhir",
+        location: "Shelf C3",
+        pdf: "https://drive.google.com/file/d/1crKvYyhZGR3vz2tlq-n7pA4KMavqm4jc/view?usp=drivesdk"
+    },
+    {
+        name: "Power Electronics",
+        author: "Ned Mohan",
+        location: "Shelf D1",
+        pdf: "books/power.pdf"
+    },
+    {
+        name: "Engineering Mechanics",
+        author: "Krishna Mohana Rao",
+        location: "Shelf E2",
+        pdf: "books/mechanics.pdf"
     }
 ];
 
-/* LIVE SEARCH */
 function searchBook() {
     let input = document.getElementById("searchBox").value.toLowerCase();
-    let resultDiv = document.getElementById("result");
 
     let results = books.filter(book =>
         book.name.toLowerCase().includes(input)
     );
 
-    resultDiv.innerHTML = "";
+    let resultDiv = document.getElementById("result");
 
-    results.forEach(book => {
-        resultDiv.innerHTML += `
-            <div class="card">
-                <img src="${book.img}">
-                <div class="card-content">
+    if (results.length > 0) {
+        resultDiv.innerHTML = "";
+
+        results.forEach(book => {
+            resultDiv.innerHTML += `
+                <div class="card">
                     <h3>${book.name}</h3>
-                    <p>${book.author}</p>
-                    <p>${book.location}</p>
+                    <p><b>Author:</b> ${book.author}</p>
+                    <p><b>Location:</b> ${book.location}</p>
                     <a href="${book.pdf}" target="_blank">📖 View PDF</a>
                 </div>
-            </div>
-        `;
-    });
+            `;
+        });
+
+    } else {
+        resultDiv.innerHTML = "<p style='text-align:center;'>❌ No results found</p>";
+    }
 }
 </script>
 
