@@ -8,47 +8,36 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         body {
-            background: url("images/library4.jpg") no-repeat center center/cover;
-            min-height: 100vh;
+            background: linear-gradient(to right, #141e30, #243b55);
             color: white;
         }
 
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: -1;
-        }
-
-        .container {
+        header {
             text-align: center;
             padding: 40px 20px;
         }
 
-        h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
+        header h1 {
+            font-size: 42px;
         }
 
-        .box {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            display: inline-block;
-            width: 90%;
-            max-width: 500px;
+        header p {
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .search-box {
+            text-align: center;
+            margin: 20px;
         }
 
         input {
             padding: 12px;
-            width: 65%;
+            width: 250px;
             border-radius: 8px;
             border: none;
             outline: none;
@@ -61,7 +50,6 @@
             background: #00c6ff;
             color: white;
             cursor: pointer;
-            font-weight: bold;
         }
 
         button:hover {
@@ -69,36 +57,50 @@
         }
 
         #result {
-            margin-top: 20px;
-            font-size: 16px;
+            margin: 30px auto;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             text-align: left;
         }
 
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: blue;
+        }
+
         .gallery {
-            display: flex;
-            overflow-x: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
             gap: 15px;
-            margin-top: 30px;
-            padding: 10px;
+            padding: 20px;
         }
 
         .gallery img {
+            width: 100%;
+            border-radius: 10px;
             height: 200px;
-            border-radius: 12px;
-            transition: transform 0.3s;
+            object-fit: cover;
+            transition: 0.3s;
         }
 
         .gallery img:hover {
             transform: scale(1.05);
         }
 
-        a {
-            color: #00e6ff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
+        footer {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.6;
         }
 
     </style>
@@ -106,92 +108,98 @@
 
 <body>
 
-    <div class="container">
+<header>
+    <h1>📚 Smart Library System</h1>
+    <p>Search books, find location, and access PDFs instantly</p>
+</header>
 
-        <h1>📚 Smart Library System</h1>
+<div class="search-box">
+    <input type="text" id="searchBox" placeholder="Search books...">
+    <button onclick="searchBook()">Search</button>
+</div>
 
-        <div class="box">
-            <input type="text" id="searchBox" placeholder="Search book...">
-            <button onclick="searchBook()">Search</button>
+<div id="result"></div>
 
-            <div id="result"></div>
-        </div>
+<!-- Gallery -->
+<div class="gallery">
+    <img src="images/library1.jpg">
+    <img src="images/library2.jpg">
+    <img src="images/library3.jpg">
+    <img src="images/library4.jpg">
+</div>
 
-        <div class="gallery">
-            <img src="images/library1.jpg">
-            <img src="images/library2.jpg">
-            <img src="images/library3.jpg">
-            <img src="images/library4.jpg">
-        </div>
+<footer>
+    © 2026 Smart Library
+</footer>
 
-    </div>
+<script>
+const books = [
+    {
+        name: "Artificial Intelligence",
+        author: "Saroj Kaushik",
+        location: "Shelf A1",
+        pdf: "books/ai.pdf"
+    },
+    {
+        name: "Fundamentals of Database Systems",
+        author: "Ramez Elmasri & Shamkant Navathe",
+        location: "Shelf B2",
+        pdf: "books/dbms.pdf"
+    },
+    {
+        name: "Concrete Technology",
+        author: "M L Gambhir",
+        location: "Shelf C3",
+        pdf: "books/concrete.pdf"
+    },
+    {
+        name: "Power Electronics",
+        author: "Ned Mohan",
+        location: "Shelf D1",
+        pdf: "books/power.pdf"
+    },
+    {
+        name: "Engineering Mechanics",
+        author: "Krishna Mohana Rao",
+        location: "Shelf E2",
+        pdf: "books/mechanics.pdf"
+    },
+    {
+        name: "Programming in ANSI C",
+        author: "E. Balagurusamy",
+        location: "Shelf F1",
+        pdf: "books/cprogramming.pdf"
+    }
+];
 
-    <script>
-        const books = [
-            {
-                name: "Artificial Intelligence",
-                author: "Saroj Kaushik",
-                location: "Shelf A1",
-                pdf: "books/ai.pdf"
-            },
-            {
-                name: "Fundamentals of Database Systems",
-                author: "Ramez Elmasri & Shamkant Navathe",
-                location: "Shelf B2",
-                pdf: "books/dbms.pdf"
-            },
-            {
-                name: "Concrete Technology",
-                author: "M L Gambhir",
-                location: "Shelf C3",
-                pdf: "books/concrete.pdf"
-            },
-            {
-                name: "Power Electronics",
-                author: "Ned Mohan",
-                location: "Shelf D1",
-                pdf: "books/power.pdf"
-            },
-            {
-                name: "Engineering Mechanics",
-                author: "Krishna Mohana Rao",
-                location: "Shelf E2",
-                pdf: "books/mechanics.pdf"
-            },
-            {
-                name: "Programming in ANSI C",
-                author: "E. Balagurusamy",
-                location: "Shelf F1",
-                pdf: "books/cprogramming.pdf"
-            }
-        ];
+function searchBook() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
 
-        function searchBook() {
-            let input = document.getElementById("searchBox").value.toLowerCase();
+    let results = books.filter(book =>
+        book.name.toLowerCase().includes(input)
+    );
 
-            let results = books.filter(book =>
-                book.name.toLowerCase().includes(input)
-            );
+    let resultDiv = document.getElementById("result");
 
-            if (results.length > 0) {
-                let output = "✅ Results:<br><br>";
+    if (results.length > 0) {
+        resultDiv.innerHTML = "";
 
-                results.forEach(book => {
-                    output += `
-                        <b>${book.name}</b><br>
-                        Author: ${book.author}<br>
-                        Location: ${book.location}<br>
-                        <a href="${book.pdf}" target="_blank">📖 View / Download PDF</a>
-                        <br><br>
-                    `;
-                });
+        results.forEach(book => {
+            resultDiv.innerHTML += `
+                <div class="card">
+                    <h3>${book.name}</h3>
+                    <p><b>Author:</b> ${book.author}</p>
+                    <p><b>Location:</b> ${book.location}</p>
+                    <a href="${book.pdf}" target="_blank">📖 View PDF</a>
+                </div>
+            `;
+        });
 
-                document.getElementById("result").innerHTML = output;
-            } else {
-                document.getElementById("result").innerHTML = "❌ No results found";
-            }
-        }
-    </script>
+    } else {
+        resultDiv.innerHTML = "<p>❌ No results found</p>";
+    }
+}
+</script>
 
 </body>
 </html>
