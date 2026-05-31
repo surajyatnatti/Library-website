@@ -1,195 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Smart Library</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(to right, #141e30, #243b55);
-            color: white;
-        }
-
-        /* HERO */
-        .hero {
-            height: 60vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
-                        url("images/library4.jpg") center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 50px;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .hero p {
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-
-        /* SEARCH */
-        .search-box {
-            margin-top: 20px;
-        }
-
-        input {
-            padding: 12px;
-            width: 260px;
-            border-radius: 25px;
-            border: none;
-            outline: none;
-        }
-
-        button {
-            padding: 12px 18px;
-            border-radius: 25px;
-            border: none;
-            background: #00c6ff;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0072ff;
-        }
-
-        /* RESULTS */
-        #result {
-            margin: 40px auto;
-            width: 90%;
-            max-width: 600px;
-        }
-
-        .card {
-            background: white;
-            color: black;
-            padding: 18px;
-            margin: 15px 0;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card a {
-            display: inline-block;
-            margin-top: 10px;
-            color: blue;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            opacity: 0.6;
-        }
-
-    </style>
-</head>
-
-<body>
-
-<div class="hero">
-    <h1>📚 Smart Library</h1>
-    <p>Search books and access PDFs instantly</p>
-
-    <div class="search-box">
-        <input type="text" id="searchBox" placeholder="Search books...">
-        <button onclick="searchBook()">Search</button>
-    </div>
-</div>
-
-<div id="result"></div>
-
-<footer>
-    © 2026 Smart Library
-</footer>
-
-<script>
-const books = [
-    {
-        name: "Programming in ANSI C",
-        author: "E. Balagurusamy",
-        location: "Shelf F1",
-        pdf: "https://drive.google.com/file/d/1ItUWXEmKABH2J2cq4XeOjBcnekuc9ns0/view?usp=drivesdk"
-    },
-    {
-        name: "Artificial Intelligence",
-        author: "Saroj Kaushik",
-        location: "Shelf A1",
-        pdf: "https://drive.google.com/file/d/12QYVw8whi8WKpQny6-ChJZNJl03Wx0FZ/view?usp=drivesdk"
-    },
-    {
-        name: "Fundamentals of Database Systems",
-        author: "Ramez Elmasri & Shamkant Navathe",
-        location: "Shelf B2",
-        pdf: "https://drive.google.com/file/d/1Zvyz70v2Mhpimy60KiLYmyGRjk6b-SEl/view?usp=drivesdk"
-    },
-    {
-        name: "Concrete Technology",
-        author: "M L Gambhir",
-        location: "Shelf C3",
-        pdf: "https://drive.google.com/file/d/1crKvYyhZGR3vz2tlq-n7pA4KMavqm4jc/view?usp=drivesdk"
-    },
-    {
-        name: "Power Electronics",
-        author: "Ned Mohan",
-        location: "Shelf D1",
-        pdf: "books/power.pdf"
-    },
-    {
-        name: "Engineering Mechanics",
-        author: "Krishna Mohana Rao",
-        location: "Shelf E2",
-        pdf: "books/mechanics.pdf"
-    }
-];
-
-function searchBook() {
-    let input = document.getElementById("searchBox").value.toLowerCase();
-
-    let results = books.filter(book =>
-        book.name.toLowerCase().includes(input)
-    );
-
-    let resultDiv = document.getElementById("result");
-
-    if (results.length > 0) {
-        resultDiv.innerHTML = "";
-
-        results.forEach(book => {
-            resultDiv.innerHTML += `
-                <div class="card">
-                    <h3>${book.name}</h3>
-                    <p><b>Author:</b> ${book.author}</p>
-                    <p><b>Location:</b> ${book.location}</p>
-                    <a href="${book.pdf}" target="_blank">📖 View PDF</a>
-                </div>
-            `;
-        });
-
-    } else {
-        resultDiv.innerHTML = "<p style='text-align:center;'>❌ No results found</p>";
-    }
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top left,#00c6ff22,transparent 40%),
+    radial-gradient(circle at bottom right,#7f00ff22,transparent 40%),
+    linear-gradient(135deg,#050816,#0b1026,#141e30);
+    color:white;
+    overflow-x:hidden;
 }
-</script>
 
-</body>
-</html>
+.hero{
+    height:60vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:600;
+    background:linear-gradient(90deg,#00f7ff,#0084ff,#8a2eff);
+    -webkit-background-clip:text;
+    color:transparent;
+    text-shadow:0 0 20px rgba(0,255,255,0.5);
+}
+
+.hero p{
+    margin-top:10px;
+    color:#b0c4de;
+}
