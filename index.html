@@ -1,11 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Library</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
 body{
     min-height:100vh;
     background:
-    radial-gradient(circle at top left,#00c6ff22,transparent 40%),
-    radial-gradient(circle at bottom right,#7f00ff22,transparent 40%),
+    radial-gradient(circle at top left,#00c6ff33,transparent 35%),
+    radial-gradient(circle at bottom right,#7f00ff33,transparent 35%),
     linear-gradient(135deg,#050816,#0b1026,#141e30);
     color:white;
-    overflow-x:hidden;
 }
 
 .hero{
@@ -15,18 +31,213 @@ body{
     justify-content:center;
     align-items:center;
     text-align:center;
+    padding:20px;
 }
 
 .hero h1{
     font-size:60px;
-    font-weight:600;
-    background:linear-gradient(90deg,#00f7ff,#0084ff,#8a2eff);
+    background:linear-gradient(90deg,#00f7ff,#00a2ff,#8a2eff);
     -webkit-background-clip:text;
     color:transparent;
-    text-shadow:0 0 20px rgba(0,255,255,0.5);
 }
 
 .hero p{
     margin-top:10px;
-    color:#b0c4de;
+    color:#cfd8dc;
 }
+
+.search-box{
+    margin-top:25px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+input{
+    width:320px;
+    padding:14px 20px;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.08);
+    color:white;
+    outline:none;
+    backdrop-filter:blur(10px);
+}
+
+input::placeholder{
+    color:#cfd8dc;
+}
+
+button{
+    padding:14px 24px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(90deg,#00c6ff,#0072ff);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px rgba(0,198,255,0.7);
+}
+
+#result{
+    width:90%;
+    max-width:800px;
+    margin:20px auto;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.15);
+    padding:20px;
+    margin:15px 0;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(0,198,255,0.3);
+}
+
+.card h3{
+    color:#00e5ff;
+    margin-bottom:10px;
+}
+
+.card p{
+    margin:6px 0;
+}
+
+.card a{
+    display:inline-block;
+    margin-top:10px;
+    color:#00e5ff;
+    text-decoration:none;
+    font-weight:600;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#b0bec5;
+}
+
+.glow{
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#00c6ff;
+    filter:blur(220px);
+    opacity:0.15;
+    top:-150px;
+    right:-150px;
+    z-index:-1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<div class="hero">
+    <h1>📚 Smart Library</h1>
+    <p>Search books and access PDFs instantly</p>
+
+    <div class="search-box">
+        <input type="text" id="searchBox" placeholder="Search books...">
+        <button onclick="searchBook()">Search</button>
+    </div>
+</div>
+
+<div id="result"></div>
+
+<footer>
+    © 2026 Smart Library
+</footer>
+
+<script>
+const books = [
+{
+    name:"Programming in ANSI C",
+    author:"E. Balagurusamy",
+    location:"Shelf F1",
+    pdf:"https://drive.google.com/file/d/1ItUWXEmKABH2J2cq4XeOjBcnekuc9ns0/view?usp=drivesdk"
+},
+{
+    name:"Artificial Intelligence",
+    author:"Saroj Kaushik",
+    location:"Shelf A1",
+    pdf:"https://drive.google.com/file/d/12QYVw8whi8WKpQny6-ChJZNJl03Wx0FZ/view?usp=drivesdk"
+},
+{
+    name:"Fundamentals of Database Systems",
+    author:"Ramez Elmasri & Shamkant Navathe",
+    location:"Shelf B2",
+    pdf:"https://drive.google.com/file/d/1Zvyz70v2Mhpimy60KiLYmyGRjk6b-SEl/view?usp=drivesdk"
+},
+{
+    name:"Concrete Technology",
+    author:"M L Gambhir",
+    location:"Shelf C3",
+    pdf:"https://drive.google.com/file/d/1crKvYyhZGR3vz2tlq-n7pA4KMavqm4jc/view?usp=drivesdk"
+},
+{
+    name:"Power Electronics",
+    author:"Ned Mohan",
+    location:"Shelf D1",
+    pdf:"books/power.pdf"
+},
+{
+    name:"Engineering Mechanics",
+    author:"Krishna Mohana Rao",
+    location:"Shelf E2",
+    pdf:"books/mechanics.pdf"
+},
+{
+    name:"Introduction to Embedded Systems",
+    author:"Shibu K V",
+    location:"Shelf ES1",
+    pdf:"#"
+}
+];
+
+function searchBook() {
+    let input = document.getElementById("searchBox").value.toLowerCase();
+
+    let results = books.filter(book =>
+        book.name.toLowerCase().includes(input)
+    );
+
+    let resultDiv = document.getElementById("result");
+
+    if(results.length > 0){
+        resultDiv.innerHTML = "";
+
+        results.forEach(book => {
+            resultDiv.innerHTML += `
+            <div class="card">
+                <h3>${book.name}</h3>
+                <p><b>Author:</b> ${book.author}</p>
+                <p><b>Location:</b> ${book.location}</p>
+                <a href="${book.pdf}" target="_blank">📖 View PDF</a>
+            </div>
+            `;
+        });
+    }
+    else{
+        resultDiv.innerHTML =
+        "<p style='text-align:center;'>❌ No books found</p>";
+    }
+}
+</script>
+
+</body>
+</html>
