@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Smart Library Pro Ultimate V2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+body{margin:0;font-family:Segoe UI;background:#0a0f1f;color:#fff}
+.sidebar{position:fixed;left:0;top:0;width:220px;height:100%;background:#111827;padding:20px;box-shadow:0 0 20px cyan}
+.main{margin-left:240px;padding:20px}
+.card{background:rgba(255,255,255,.06);border:1px solid cyan;border-radius:15px;padding:15px;margin:10px 0;box-shadow:0 0 20px rgba(0,255,255,.2)}
+.book{border:1px solid cyan;padding:12px;border-radius:12px;margin:10px 0}
+button,input,select{padding:10px;border-radius:8px;border:none;margin:5px}
+button{background:#06b6d4;color:#fff}
+.hidden{display:none}
+iframe{width:100%;height:500px;border:none}
+</style>
+</head>
+<body>
+<div class='sidebar'>
+<h2>📚 Library V2</h2>
+<p>Dashboard</p>
+<p>Books</p>
+<p>History</p>
+<p>Admin</p>
+</div>
+
+<div class='main'>
+<h1>🚀 Smart Library Pro Ultimate V2</h1>
+
+<div class='card'>
+<h3>Statistics</h3>
+Total Books: <span id='tb'></span> |
+Pending: <span id='pd'></span> |
+Issued: <span id='is'></span>
+</div>
+
+<div class='card'>
+<h3>Search Books</h3>
+<input id='searchBox' placeholder='Search'>
+<button onclick='searchBook()'>Search</button>
+<div id='results'></div>
+</div>
+
+<div class='card'>
+<h3>Student Book Request</h3>
+<input id='sname' placeholder='Student Name'>
+<input id='susn' placeholder='USN'>
+<select id='bookSelect'></select>
+<button onclick='requestBook()'>Request Book</button>
+</div>
+
+<div class='card'>
+<h3>Librarian Login</h3>
+<input id='user' placeholder='Username'>
+<input id='pass' type='password' placeholder='Password'>
+<button onclick='login()'>Login</button>
+<div id='msg'></div>
+</div>
+
+<div id='admin' class='hidden'>
+<div class='card'>
+<h3>Add/Delete Books</h3>
+<input id='newBook' placeholder='Book Name'>
+<button onclick='addBook()'>Add Book</button>
+</div>
+
+<div class='card'>
+<h3>Requests</h3>
+<div id='requests'></div>
+</div>
+
+<div class='card'>
+<h3>Issued Books</h3>
+<div id='issued'></div>
+</div>
+</div>
+
+<div class='card'>
+<h3>Borrow History</h3>
+<div id='history'></div>
+</div>
+
+<div id='viewer'></div>
+</div>
+
+<script>
+let books=[
+{name:"Programming in ANSI C",author:"E. Balagurusamy",location:"Shelf F1",pdf:"https://drive.google.com/file/d/1ItUWXEmKABH2J2cq4XeOjBcnekuc9ns0/preview"},
+{name:"Artificial Intelligence",author:"Saroj Kaushik",location:"Shelf A1",pdf:"https://drive.google.com/file/d/12QYVw8whi8WKpQny6-ChJZNJl03Wx0FZ/preview"},
+{name:"Fundamentals of Database Systems",author:"Ramez Elmasri & Shamkant Navathe",location:"Shelf B2",pdf:"https://drive.google.com/file/d/1Zvyz70v2Mhpimy60KiLYmyGRjk6b-SEl/preview"},
+{name:"Concrete Technology",author:"M L Gambhir",location:"Shelf C3",pdf:"https://drive.google.com/file/d/1crKvYyhZGR3vz2tlq-n7pA4KMavqm4jc/preview"},
+{name:"Power Electronics",author:"Ned Mohan",location:"Shelf D1",pdf:"#"},
+{name:"Engineering Mechanics",author:"Krishna Mohana Rao",location:"Shelf E2",pdf:"#"},
+{name:"Introduction to Embedded Systems",author:"Shibu K V",location:"Shelf ES1",pdf:"https://drive.google.com/file/d/1L2ifyuJrCjUECYPKX_KNOFbUSTPIbwzY/preview"}
+];
+let requests=JSON.parse(localStorage.getItem('reqv2')||'[]');
+let issued=JSON.parse(localStorage.getItem('issv2')||'[]');
+let history=JSON.parse(localStorage.getItem('hisv2')||'[]');
+
+function save(){
+localStorage.setItem('reqv2',JSON.stringify(requests));
+localStorage.setItem('issv2',JSON.stringify(issued));
+localStorage.setItem('hisv2',JSON.stringify(history));
+stats();renderRequests();renderIssued();renderHistory();
+}
+function stats(){tb.innerText=books.length;pd.innerText=requests.filter(x=>x.status=='Pending').length;is.innerText=issued.length;}
+function loadSelect(){bookSelect.innerHTML='';books.forEach(b=>bookSelect.innerHTML+=`<option>${b.name}</option>`);}
+function searchBook(){
+let q=searchBox.value.toLowerCase();results.innerHTML='';
+books.filter(b=>b.name.toLowerCase().includes(q)).forEach((b,i)=>{
+results.innerHTML+=`<div class='book'>
+<h3>${b.name}</h3>
+<p>Author: ${b.author}</p>
+<p>Location: ${b.location}</p>
+<div id='qr${i}'></div>
+<button onclick="openPdf('${b.pdf}')">View PDF</button>
+</div>`;
+setTimeout(()=>new QRCode(document.getElementById('qr'+i),{text:b.name,width:90,height:90}),10);
+});
+}
+function openPdf(pdf){viewer.innerHTML=`<div class='card'><iframe src='${pdf}'></iframe></div>`;}
+function requestBook(){
+requests.push({name:sname.value,usn:susn.value,book:bookSelect.value,status:'Pending'});
+save();alert('Request Sent');
+}
+function login(){
+if(user.value=='librarian'&&pass.value=='admin123'){admin.classList.remove('hidden');msg.innerText='Logged In';}
+}
+function renderRequests(){
+requests.innerHTML='';
+window.requestsDiv=document.getElementById('requests');
+requestsDiv.innerHTML='';
+requests.forEach((r,i)=>{
+requestsDiv.innerHTML+=`${r.name} - ${r.book} - ${r.status}
+<button onclick='approve(${i})'>Approve</button><hr>`;
+});
+}
+function approve(i){
+requests[i].status='Approved';
+issued.push({...requests[i],issueDate:Date.now()});
+save();
+}
+function renderIssued(){
+let d=document.getElementById('issued');d.innerHTML='';
+issued.forEach((r,i)=>{
+d.innerHTML+=`${r.name} - ${r.book}
+<button onclick='returnBook(${i})'>Return</button><hr>`;
+});
+}
+function returnBook(i){
+let r=issued[i];
+let days=Math.floor((Date.now()-r.issueDate)/(1000*60*60*24));
+let fine=Math.max(0,days-15)*2;
+history.push({book:r.book,name:r.name,fine:fine});
+issued.splice(i,1);
+save();
+alert('Fine ₹'+fine);
+}
+function renderHistory(){
+history.innerHTML='';
+let d=document.getElementById('history');d.innerHTML='';
+history.forEach(h=>d.innerHTML+=`${h.name} | ${h.book} | Fine ₹${h.fine}<br>`);
+}
+function addBook(){
+if(newBook.value) books.push({name:newBook.value,author:'Unknown',location:'New Shelf',pdf:'#'});
+loadSelect();stats();searchBook();
+}
+loadSelect();stats();searchBook();renderRequests();renderIssued();renderHistory();
+</script>
+</body></html>
