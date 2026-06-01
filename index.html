@@ -159,11 +159,20 @@ requestsDiv.innerHTML+=`${r.name} - ${r.book} - ${r.status}
 <button onclick='approve(${i})'>Approve</button><hr>`;
 });
 }
-function approve(i){
-requests[i].status='Approved';
-issued.push({...requests[i],issueDate:Date.now()});
+  function approve(i){
+
+let req = requests[i];
+
+issued.push({
+...req,
+issueDate: Date.now()
+});
+
+requests.splice(i,1);
+
 save();
-}
+
+  }
 function renderIssued(){
 let d=document.getElementById('issued');d.innerHTML='';
 issued.forEach((r,i)=>{
@@ -171,15 +180,29 @@ d.innerHTML+=`${r.name} - ${r.book}
 <button onclick='returnBook(${i})'>Return</button><hr>`;
 });
 }
-function returnBook(i){
-let r=issued[i];
-let days=Math.floor((Date.now()-r.issueDate)/(1000*60*60*24));
-let fine=Math.max(0,days-15)*2;
-history.push({book:r.book,name:r.name,fine:fine});
+  function ret(i){
+
+let r = issued[i];
+
+let fine =
+Math.max(
+0,
+Math.floor((Date.now()-r.issueDate)/86400000)-15
+)*2;
+
+history.push({
+name:r.name,
+book:r.book,
+fine:fine
+});
+
 issued.splice(i,1);
+
 save();
-alert('Fine ₹'+fine);
-}
+
+alert("Fine ₹"+fine);
+
+  }
 function renderHistory(){
 history.innerHTML='';
 let d=document.getElementById('history');d.innerHTML='';
