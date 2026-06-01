@@ -63,17 +63,16 @@ Issued: <span id='is'></span>
 <div class='card'>
 <h3>Add/Delete Books</h3>
 <input id="bookName" placeholder="Book Name">
-
 <input id="bookAuthor" placeholder="Author Name">
-
 <input id="bookLocation" placeholder="Shelf Location">
-
 <input id="bookPdf" placeholder="PDF Link">
-
 <input id="bookCover" placeholder="Cover Image URL">
-
 <button onclick="addBook()">Add Book</button>
-<button onclick='addBook()'>Add Book</button>
+  <button onclick="openPdf('${b.pdf}')">📖 View PDF</button>
+
+<button onclick="deleteBook(${i})">
+🗑 Delete Book
+</button>
 </div>
 
 <div class='card'>
@@ -196,24 +195,16 @@ cover:bookCover.value
 });
 
 save();
-
 loadSelect();
-
 searchBook();
 
   }
-  function deleteBook(i){
-
+function deleteBook(i){
 if(confirm("Delete this book?")){
-
 books.splice(i,1);
-
 save();
-
 searchBook();
-
 loadSelect();
-
 }
 
   }
