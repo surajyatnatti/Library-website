@@ -62,7 +62,17 @@ Issued: <span id='is'></span>
 <div id='admin' class='hidden'>
 <div class='card'>
 <h3>Add/Delete Books</h3>
-<input id='newBook' placeholder='Book Name'>
+<input id="bookName" placeholder="Book Name">
+
+<input id="bookAuthor" placeholder="Author Name">
+
+<input id="bookLocation" placeholder="Shelf Location">
+
+<input id="bookPdf" placeholder="PDF Link">
+
+<input id="bookCover" placeholder="Cover Image URL">
+
+<button onclick="addBook()">Add Book</button>
 <button onclick='addBook()'>Add Book</button>
 </div>
 
@@ -177,9 +187,36 @@ let d=document.getElementById('history');d.innerHTML='';
 history.forEach(h=>d.innerHTML+=`${h.name} | ${h.book} | Fine ₹${h.fine}<br>`);
 }
 function addBook(){
-if(newBook.value) books.push({name:newBook.value,author:'Unknown',location:'New Shelf',pdf:'#'});
-loadSelect();stats();searchBook();
+books.push({
+name:bookName.value,
+author:bookAuthor.value,
+location:bookLocation.value,
+pdf:bookPdf.value,
+cover:bookCover.value
+});
+
+save();
+
+loadSelect();
+
+searchBook();
+
+  }
+  function deleteBook(i){
+
+if(confirm("Delete this book?")){
+
+books.splice(i,1);
+
+save();
+
+searchBook();
+
+loadSelect();
+
 }
+
+  }
 loadSelect();
 stats();
 renderRequests();
