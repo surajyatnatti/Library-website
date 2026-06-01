@@ -109,6 +109,19 @@ function stats(){tb.innerText=books.length;pd.innerText=requests.filter(x=>x.sta
 function loadSelect(){bookSelect.innerHTML='';books.forEach(b=>bookSelect.innerHTML+=`<option>${b.name}</option>`);}
 function searchBook(){
 let q=searchBox.value.toLowerCase();results.innerHTML='';
+  if(
+books.filter(b=>b.name.toLowerCase().includes(q))
+.length===0
+){
+results.innerHTML =
+"❌ No matching book found.";
+return;
+  }
+  if(q.trim()==""){
+results.innerHTML =
+"🔍 Search for a book to view details.";
+return;
+  }
 books.filter(b=>b.name.toLowerCase().includes(q)).forEach((b,i)=>{
 results.innerHTML+=`<div class='book'>
 <h3>${b.name}</h3>
@@ -167,6 +180,13 @@ function addBook(){
 if(newBook.value) books.push({name:newBook.value,author:'Unknown',location:'New Shelf',pdf:'#'});
 loadSelect();stats();searchBook();
 }
-loadSelect();stats();searchBook();renderRequests();renderIssued();renderHistory();
+loadSelect();
+stats();
+renderRequests();
+renderIssued();
+renderHistory();
+
+document.getElementById("results").innerHTML =
+"🔍 Search for a book to view details.";
 </script>
 </body></html>
